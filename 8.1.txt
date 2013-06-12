@@ -1,0 +1,96 @@
+A. INFORMACJE OGÓLNE O PROJEKCIE
+1. Identyfikacja projektu
+a) Tytuł projektu
+b) Krótki opis projektu
+c) Słowa kluczowe
+d) Obszar e-gospodarki
+2. Identyfikacja rodzaju interwencji
+a) Program Operacyjny$Innowacyjna Gospodarka
+b) Os Priorytetowa 8.
+c) Działanie 8.1
+3. Klasyfikacja projektu Kod Nazwa
+a) Temat priorytetowy
+b) Forma finansowania
+c) Obszar realizacji
+d) Dział gospodarki
+4. Typ projektu#Czy stanowi „duzy projekt” w rozumieniu rozporzadzenia 1083/2006 lub „duzy projekt inwestycyjny” zgodnie z definicja w Art. 2 rozporzadzenia Komisji (WE) nr 800/2008?#*TAKNIE*
+5. Planowany cross-financing*TAKNIE*
+6. Projekt ma co najmniej neutralny wpływ na polityki horyzontalne Unii Europejskiej wymienione w art. 16 i 17 rozporzadzenia 1083/2006(4000 znaków)*TAKNIE*
+7. Rodzaj i poziom innowacyjnoci projektu
+8. Powiazanie projektu z innymi projektami w ramach NSRO 2007-2013
+a) Informacje o innych projektach Wnioskodawcy#4000#
+9. Lokalizacja projektu
+B. INFORMACJE OGÓLNE O WNIOSKODAWCY
+10. Identyfikacja Wnioskodawcy
+a) Pełna nazwa Wnioskodawcy
+b) Nazwa formy prawnej
+c) NIP
+d) REGON
+e) Status Wnioskodawcy na dzien składania wniosku
+f) Kod PKD podstawowej działalnosci Wnioskodawcy
+h) Adres strony internetowej
+i) Krótki opis Wnioskodawcy
+11. Dane Wnioskodawcy - przedsiebiorcy zarejestrowanego w KRS
+a) Numer w Krajowym Rejestrze Sadowym
+b) Data rejestracji w Krajowym Rejestrze Sadowym
+c) Adres siedziby
+12. Dane do korespondencji
+a) Osoba do kontaktu
+b) Adres korespondencyjny Wnioskodawcy
+13. Pomoc publiczna uzyskana przez Wnioskodawce*TAKNIE*
+a) Kwota pomocy innej niz de minimis otrzymana w odniesieniu do tych samych wydatków kwalifikowalnych zwiazanych z projektem, którego dotyczy wniosek (w PLN)
+c) Łaczna kwota brutto pomocy de minimis uzyskana w okresie biezacego roku podatkowego i dwóch poprzednich lat podatkowych (w EUR)
+14. Kwalifikowalnosc VAT
+C. SZCZEGÓŁOWY OPIS PROJEKTU
+15. E-usługa, jako cel projektu na poziomie produktu
+a) Geneza pomysłu, innowacyjnosc projektu, podstawowy opis planowanych e-usług#10000#
+b) Sposób swiadczenia e-usług - opis funkcjonalny serwisu#12000#
+c) Projekt ma na celu przygotowanie, wdrozenie i swiadczenie zaawansowanych e-usług o znaczeniu krajowym lub miedzynarodowym#4000#
+1. cecha,korzysc,parametr
+16. Model biznesowy i analiza rynku
+a) Identyfikacja, charakterystyka i analiza potrzeb grupy docelowej#12000#
+b) Zidentyfikowane zródła przychodów#8000#
+c) Analiza otoczenia konkurencyjnego, substytuty#10000#
+d) Analiza SWOT#6000#
+e) Zarys strategii marketingowej, analiza popytu na e-usługe oraz polityka cenowa firmy#10000#
+f) Koncepcja promocji, pozyskiwanie klientów i utrzymywania relacji z klientami#10000#
+g) Kalkulacja przychodów projektu w czasie (w poszczególnych etapach i okresie trwałosci, w podziale na zródła), rentownosc, okres zwrotu#12000#
+17. Przygotowanie do realizacji projektu
+a) Zasoby wiedzy, identyfikacja i preferencje odnosnie technologii informatycznych
+b) Zasoby materialne dla realizacji projektu – stan obecny, analiza potrzeb#6000#
+c) Zasoby osobowe dla realizacji projektu – stan obecny i analiza potrzeb#6000#
+d) Zapotrzebowanie w zakresie usług obcych#10000#
+e) Metodologia i uzasadnienie oszacowania wysokosci poszczególnych wydatków#12000#
+f) Swiadczenie planowanych e-usług w aspekcie prawnym i etycznym#4000#
+18. Realizacja projektu
+a) Opis realizacji poszczególnych etapów projektu – działania i ich finansowanie#12000#
+b) Identyfikacja i neutralizacja zagrozen dla planowej realizacji działan#6000#
+c) Rezultaty realizacji projektu – opis celów#10000#
+1. Swiadczenie nowych e-usług:
+2. Utworzenie stale obsadzonych miejsc pracy:
+3. Osiagniecie wysokiego poziomu konsumpcji e-usługi na rynku:
+19. Trwałosc projektu
+a) Opis zasobów oraz inwestycji odtworzeniowych niezbednych dla kontynuacji swiadczenia 
+e-usługi#6000#
+b) Cykl zycia produktu, wizja ewolucji serwisu i e-usługi#6000#
+c) Trwałosc zródeł przychodów i zarys długookresowej strategii marketingowej#6000#
+d) Koszty stałe i zmienne w okresie trwałosci - kalkulacja#8000#
+1. Koszty stałe (pkt. 25 Wniosku):
+2. Koszty zmienne (pkt. 25 Wniosku):
+D. TABELARYCZNE ZESTAWIENIE DANYCH 
+20. Skwantyfikowane wskazniki realizacji celów projektu
+21. Przebieg rzeczowo-finansowy
+a) Harmonogram realizacji projektu
+b) Zestawienie wydatków wg etapów
+c) Zestawienie wydatków kwalifikowalnych wg kategorii
+22. Plan finansowy projektu
+23. Zródła finansowania projektu
+24. Całkowite wydatki na realizacje projektu (w PLN)
+25. Prognoza przepływów finansowych
+26. Wskazniki oceny efektywnosci ekonomicznej
+a) Stopa dyskonta 5.25%
+b) Zdyskontowany, skumulowany zysk na działalnosci operacyjnej
+c) Wskaznik rentownosci na sprzedazy
+d) Wskaznik rentownosci inwestycji
+e) Wskaznik efektywnosci ekonomicznej
+

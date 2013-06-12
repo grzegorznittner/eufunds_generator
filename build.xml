@@ -1,0 +1,72 @@
+<project name="Discover Translation Tool">
+  <property environment="env"/>
+  <echo message="\'JAVA_HOME\'=${env.JAVA_HOME}"/>
+
+  <property name="version" value="1.0beta4"/>
+
+  <property name="java-src" value="src"/>
+  <property name="java-classes" value="bin"/>
+  <property name="target" value="target"/>
+
+  <path id="project.classpath">
+    <pathelement path="${java-classes}" />
+    <fileset dir="lib">
+      <include name="**/*.jar" />
+    </fileset>
+  </path>
+
+  <target name="compile" description="Compiles Java source.">
+    <mkdir dir="${java-classes}" />
+    <copy todir="${java-classes}">
+      <fileset dir="${java-src}">
+        <exclude name="**/*.java" />
+      </fileset>
+    </copy>
+    <javac
+        destdir="${java-classes}"
+        classpathref="project.classpath"
+        debug="on">
+    	<src path="${java-src}"/>
+    	<include name="com/**"/>
+    </javac>
+  </target>
+
+  <target name="install" depends="compile" description="Prepares target jar file.">
+    <mkdir dir="temp-classes" />
+    <unjar dest="temp-classes" overwrite="true">
+      <fileset dir="lib">
+        <include name="**/*.jar"/>
+      </fileset>
+    </unjar>
+    <copy todir="temp-classes">
+      <fileset dir="${java-classes}">
+        <include name="**/*" />
+      </fileset>
+    </copy>
+
+    <tstamp/>
+    <mkdir dir="${target}" />
+    <jar destfile="${target}/translation_tool_all.jar" basedir="temp-classes">
+      <manifest>
+        <attribute name="Implementation-Build" value="DTT build on ${DSTAMP} ${TSTAMP}"/>
+        <!-- attribute name="Build-Jdk" value="${DSTAMP} ${TSTAMP}"/ -->
+        <!-- Information about the program itself -->
+        <attribute name="Implementation-Vendor" value="ITHR"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+        <attribute name="Main-Class" value="com.vodafone.global.discover.translation.MainForm"/>
+      </manifest>
+    </jar>
+
+    <delete includeEmptyDirs="true" failonerror="false">
+      <fileset dir="temp-classes"/>
+    </delete>
+  </target>
+
+  <target name="clean" description="Cleans Java artefacts">
+    <delete includeEmptyDirs="true" failonerror="false">
+      <fileset dir="${java-classes}"/>
+      <fileset dir="${target}"/>
+    </delete>
+  </target>
+
+</project>
