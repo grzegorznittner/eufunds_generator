@@ -1,18 +1,21 @@
 package pl.nittner.eu.generator;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -34,7 +37,7 @@ import pl.nittner.eu.generator.view.ProjectView;
 @SuppressWarnings("serial")
 public class EUGenMainForm extends JPanel implements ActionListener{
 	private static final String APP_NAME = "EU Funds - 8.1 Generator";
-	private static final String DEFAULT_PROJECTS_FOLDER = "/home/greg/projects/eu_funds_generator/";
+	private static final String DEFAULT_PROJECTS_FOLDER = ".";
 	
 	static protected JFrame frame;
 
@@ -91,12 +94,20 @@ public class EUGenMainForm extends JPanel implements ActionListener{
 		try {
 			setBackground(Color.LIGHT_GRAY);
 			setOpaque(true);
-			setLayout(new BorderLayout());
+			setLayout(new GridBagLayout());
 
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.BOTH;
+			c.weightx = 1.0;
+			c.weighty = 1.0;
+			c.gridx = 0;
+			c.gridy = 0;
+			
 			mainPane = new ProjectView();
+			mainPane.setBorder(BorderFactory.createLineBorder(Color.RED));
 
 			scroller = new JScrollPane(mainPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			add(scroller, BorderLayout.CENTER);
+			add(scroller, c);
 			
 			//Provide minimum sizes for the two components in the split pane
 			Dimension minimumSize = new Dimension(100, 50);
@@ -112,22 +123,30 @@ public class EUGenMainForm extends JPanel implements ActionListener{
 		if ("save".equals(action)) {
 	    } else if ("cancel".equals(action)) {
 	    } else if ("undo".equals(action)) {
-	    } else if ("add_translation".equals(action)) {
+	    } else if ("increase-font".equals(action)) {
+	    	mainPane.increaseFontSize();
+	    } else if ("decrease-font".equals(action)) {
+	    	mainPane.decreaseFontSize();
 	    } else if ("new_project".equals(action)) {
 	    	mainPane.addProject(new Project81VO());
 	    	mainPane.showAllProjects();
+	    	scroller.invalidate();
+	    	scroller.doLayout();
  	    } else if ("load".equals(action)) {
 	    	JFileChooser chooser = new JFileChooser(); 
 	        chooser.setCurrentDirectory(new java.io.File(DEFAULT_PROJECTS_FOLDER));
-	        chooser.setDialogTitle("Select project file");
+	        chooser.setDialogTitle("Wybierz plik projektu");
 	        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-	        chooser.setAcceptAllFileFilterUsed(false);
+	        chooser.setFileFilter(new WildcardFileFilter(new String[]{ "*.json"}));
+	        //chooser.setAcceptAllFileFilterUsed(false);
 			if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 				System.out.println("Loading project from " + chooser.getSelectedFile());
 				Project81VO project = FileStorage.load81Project(chooser.getSelectedFile().getAbsolutePath());
 				project.path = chooser.getSelectedFile().getAbsolutePath();
 				mainPane.addProject(project);
 		    	mainPane.showAllProjects();
+		    	scroller.invalidate();
+		    	scroller.doLayout();
 			}
 	    } else if ("save_all".equals(action)) {
 	    	List<Project81VO> projects = mainPane.getProjectsVO();
@@ -137,17 +156,46 @@ public class EUGenMainForm extends JPanel implements ActionListener{
 			        chooser.setCurrentDirectory(new java.io.File(DEFAULT_PROJECTS_FOLDER));
 			        chooser.setDialogTitle("Select project file");
 			        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-			        chooser.setApproveButtonText("Save project");
-			        chooser.setAcceptAllFileFilterUsed(false);
+			        chooser.setFileFilter(new WildcardFileFilter(new String[]{ "*.json"}));
+			        chooser.setApproveButtonText("Zapisz projekt");
+			        //chooser.setAcceptAllFileFilterUsed(false);
 					if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-						System.out.println("Storing project in " + chooser.getSelectedFile());
-						FileStorage.storeProject(project, chooser.getSelectedFile().getAbsolutePath());
-						project.path = chooser.getSelectedFile().getAbsolutePath();
+						String filePath = chooser.getSelectedFile().getAbsolutePath();
+						if (!filePath.endsWith(".json")) {
+							filePath += ".json";
+						}
+						System.out.println("Storing project in " + filePath);
+						FileStorage.storeProject(project, filePath);
+						project.path = filePath;
 					}
 	    		} else {
 	    			System.out.println("Storing project in " + project.path);
 					FileStorage.storeProject(project, project.path);
 	    		}
+	    	}
+	    } else if ("save_rtf_all".equals(action)) {
+	    	List<Project81VO> projects = mainPane.getProjectsVO();
+	    	for (Project81VO project : projects) {
+	    		String name = "<nowy>";
+	    		if (project.path != null) {
+	    			name = new File(project.path).getName();
+	    		}
+		    	JFileChooser chooser = new JFileChooser(); 
+		        chooser.setCurrentDirectory(new java.io.File(DEFAULT_PROJECTS_FOLDER));
+		        chooser.setDialogTitle("Projekt: " + name);
+		        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		        chooser.setFileFilter(new WildcardFileFilter(new String[]{ "*.rtf"}));
+		        chooser.setApproveButtonText("Zapisz RTF");
+		        //chooser.setAcceptAllFileFilterUsed(false);
+				if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+					String filePath = chooser.getSelectedFile().getAbsolutePath();
+					if (!filePath.endsWith(".rtf")) {
+						filePath += ".rtf";
+					}
+					System.out.println("Storing RTF in " + filePath);
+					FileStorage.storeProjectAsRTF(project, filePath);
+					project.path = chooser.getSelectedFile().getAbsolutePath();
+				}
 	    	}
 	    } else if ("exit".equals(action)) {
 	    	askToExitApp();
@@ -156,73 +204,10 @@ public class EUGenMainForm extends JPanel implements ActionListener{
 	}
 
 	private void askToExitApp() {
-		int reply = JOptionPane.showConfirmDialog(frame, "Do you want to quit the application?", "Exit?", JOptionPane.YES_NO_OPTION);
+		int reply = JOptionPane.showConfirmDialog(frame, "Czy zamknąć aplikację?", "Wyjście?", JOptionPane.YES_NO_OPTION);
 		if (reply == JOptionPane.YES_OPTION) {
 			System.exit(0);
 		}
-	}
-
-	private void importXLSFile() {
-		/*
-		JFileChooser chooser = new JFileChooser();
-		chooser.setCurrentDirectory(new java.io.File(DEFAULT_TRANSLATIONS_FOLDER));
-		chooser.setDialogTitle("Select XLS file to import");
-		chooser.addChoosableFileFilter(new WildcardFileFilter(new String[]{ "*.xls", "*.xlsx"}));
-		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-			String selectedFile = chooser.getSelectedFile().getAbsolutePath();
-			if (tableModel != null) {
-				XLSImportDialog dialog = new XLSImportDialog(frame, tableModel, selectedFile);
-				if (dialog.changesConfirmed()) {
-					
-					for (TranslationFile file : tableModel.getTranslations()) {
-						file.updateEnablerButton();
-					}
-				}
-			}
-		} */
-	}
-
-	private void exportXLSFile() {
-		/*
-		JFileChooser chooser = new JFileChooser();
-		String filePath = tableModel.getTranslations().get(0).getTranslationFilePath();
-		chooser.setCurrentDirectory(new File(filePath).getParentFile().getAbsoluteFile());
-		chooser.setDialogTitle("Select XLS file to export");
-		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		chooser.addChoosableFileFilter(new WildcardFileFilter(new String[]{ "*.xls", "*.xlsx"}));
-		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-			String selectedFile = chooser.getSelectedFile().getAbsolutePath();
-			System.out.println("Exporting XLS file " + selectedFile);
-			try {
-				ResourceExport.exportToXLS(selectedFile, tableModel.getTranslations());
-			} catch (Exception e) {
-				e.printStackTrace();
-	    		showErrorDialog("Resource export error!", e);
-			}
-		}
-		 */
-	}
-
-	private void exportHTMLFile() {
-		/*
-		JFileChooser chooser = new JFileChooser();
-		String filePath = tableModel.getTranslations().get(0).getTranslationFilePath();
-		chooser.setCurrentDirectory(new File(filePath).getParentFile().getAbsoluteFile());
-		chooser.setDialogTitle("Select HTML file to export");
-		chooser.addChoosableFileFilter(new WildcardFileFilter(new String[]{ "*.htm", "*.html"}));
-		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-			String selectedFile = chooser.getSelectedFile().getAbsolutePath();
-			System.out.println("Exporting HTML file " + selectedFile);
-			try {
-				ResourceExport.exportToHTML(selectedFile, tableModel.getTranslations());
-			} catch (Exception e) {
-				e.printStackTrace();
-	    		showErrorDialog("Resource export error!", e);
-			}
-		}
-		*/
 	}
 
 	private JMenuBar createMenu() {
@@ -232,11 +217,11 @@ public class EUGenMainForm extends JPanel implements ActionListener{
 
 		menuBar = new JMenuBar();
 
-		menu = new JMenu("File");
+		menu = new JMenu("Plik");
 		menu.setMnemonic(KeyEvent.VK_F);
 		menuBar.add(menu);
 
-		menuItem = new JMenuItem("New project", KeyEvent.VK_L);
+		menuItem = new JMenuItem("Nowy projekt", KeyEvent.VK_L);
 		menuItem.setActionCommand("new_project");
 		menuItem.addActionListener(this);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.ALT_MASK));
@@ -244,47 +229,53 @@ public class EUGenMainForm extends JPanel implements ActionListener{
 
 		menu.addSeparator();
 		
-		menuItem = new JMenuItem("Load project", KeyEvent.VK_L);
+		menuItem = new JMenuItem("Wczytaj projekt", KeyEvent.VK_L);
 		menuItem.setActionCommand("load");
 		menuItem.addActionListener(this);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.ALT_MASK));
 		menu.add(menuItem);
 		
-		menuItem = new JMenuItem("Save all projects", KeyEvent.VK_S);
+		menuItem = new JMenuItem("Zapisz wszystkie projekty", KeyEvent.VK_S);
 		menuItem.setActionCommand("save_all");
 		menuItem.addActionListener(this);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
 		menu.add(menuItem);
 		
 		menu.addSeparator();
-				
-		menuItem = new JMenuItem("Exit", KeyEvent.VK_Q);
+		
+		menuItem = new JMenuItem("Zapisz wszystkie jako RTF", KeyEvent.VK_R);
+		menuItem.setActionCommand("save_rtf_all");
+		menuItem.addActionListener(this);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.ALT_MASK));
+		menu.add(menuItem);
+		
+		menu.addSeparator();
+		
+		menuItem = new JMenuItem("Zakończ", KeyEvent.VK_Q);
 		menuItem.setActionCommand("exit");
 		menuItem.addActionListener(this);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.ALT_MASK));
 		menu.add(menuItem);
 		
-		mainMenu = new JMenu("Translations");
-		menu.setMnemonic(KeyEvent.VK_T);
-		menuBar.add(mainMenu);
+		menu = new JMenu("Widok");
+		menu.setMnemonic(KeyEvent.VK_V);
+		menuBar.add(menu);
+
+		menuItem = new JMenuItem("Zwiększ font", KeyEvent.VK_I);
+		menuItem.setActionCommand("increase-font");
+		menuItem.addActionListener(this);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.ALT_MASK));
+		menu.add(menuItem);
 		
+		menuItem = new JMenuItem("Zmniejsz font", KeyEvent.VK_D);
+		menuItem.setActionCommand("decrease-font");
+		menuItem.addActionListener(this);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.ALT_MASK));
+		menu.add(menuItem);
+
 		// updateTranslationsMenu();
 
 		return menuBar;
-	}
-
-	private void updateTranslationsMenu() {
-		mainMenu.removeAll();
-		
-		JMenuItem menuItem;
-		menuItem = new JMenuItem("show all");
-		menuItem.setActionCommand("show_all");
-		menuItem.addActionListener(this);
-		mainMenu.add(menuItem);
-		
-		menuItem = new JMenuItem("hide all");
-		menuItem.setActionCommand("hide_all");
-		menuItem.addActionListener(this);
 	}
 
 	public static void main(String[] args) {

@@ -15,6 +15,14 @@ public class DetailedProjectDescVO {
 		eusluga.add(new EServiceParamsVO());
 	}
 	
+	public String tytul;
+	public String krotkiOpis;
+	public String slowaKluczowe;
+	public String obszarGospodarki;
+	public String neutoralnoscUzasad;
+	public String inneProjekty;
+	public String projektyPowiazane;
+	
 	public String geneza = "";
 	public String sposobSwiadczenia = "";
 	public String nazwaEUslugi = "";
